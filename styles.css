@@ -1,0 +1,420 @@
+# Complete Combined HTML (Intro Page + Portfolio)
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soft Blue Portfolio</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(180deg, #eaf4ff, #dcecff);
+  overflow-x: hidden;
+}
+
+/* REMOVE LINK UNDERLINES */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* INTRO SCREEN */
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(180deg, #edf5ff, #dcecff, #d4e7ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.intro-screen::before,
+.intro-screen::after {
+  content: "☁️";
+  position: absolute;
+  font-size: 50px;
+  opacity: 0.3;
+  animation: floatCloud 8s ease-in-out infinite;
+}
+
+.intro-screen::before {
+  left: 10%;
+  top: 20%;
+}
+
+.intro-screen::after {
+  right: 12%;
+  bottom: 18%;
+  animation-delay: 2s;
+}
+
+.intro-content {
+  text-align: center;
+  animation: fadeUp 1.2s ease;
+}
+
+.sparkle {
+  font-size: 28px;
+  color: #89aee6;
+  animation: twinkle 2s infinite ease-in-out;
+}
+
+.intro-content h1 {
+  color: #5f7ec7;
+  font-size: 42px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.enter-btn {
+  border: none;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(10px);
+  padding: 14px 40px;
+  border-radius: 999px;
+  color: #5f7ec7;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(120,160,220,0.2);
+  transition: 0.3s;
+}
+
+.enter-btn:hover {
+  transform: scale(1.08);
+}
+
+.loading-wrapper {
+  display: none;
+  margin-top: 28px;
+}
+
+.loading-bar {
+  width: 240px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.5);
+  overflow: hidden;
+  margin: auto;
+}
+
+.loading-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #9bc8ff, #bfdcff);
+  transition: width 2s ease;
+}
+
+.loading-text {
+  margin-top: 12px;
+  color: #7c9bd2;
+  font-size: 13px;
+}
+
+/* GRID */
+.home {
+  display: none;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+  padding: 30px;
+  justify-items: center;
+}
+
+.app {
+  text-align: center;
+  cursor: pointer;
+}
+
+.icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  box-shadow: 0 6px 18px rgba(120,160,220,0.25);
+  transition: 0.25s;
+}
+
+.icon:hover {
+  transform: scale(1.12);
+}
+
+.label {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #4a6fa5;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  background: rgba(200,220,255,0.35);
+  backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  width: 85%;
+  max-width: 500px;
+  background: white;
+  border-radius: 24px;
+  padding: 20px;
+  max-height: 80%;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(100,140,200,0.3);
+  position: relative;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+}
+
+/* POP ANIMATION */
+.item {
+  opacity: 0;
+  transform: scale(0.8) translateY(10px);
+  animation: popIn 0.5s forwards;
+}
+
+.item:nth-child(2) { animation-delay: 0.1s; }
+.item:nth-child(3) { animation-delay: 0.2s; }
+.item:nth-child(4) { animation-delay: 0.3s; }
+
+@keyframes popIn {
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* FLOATING BUBBLES */
+.bubble {
+  position: absolute;
+  bottom: 10px;
+  font-size: 20px;
+  animation: floatUp 4s linear infinite;
+  opacity: 0.6;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-300px) scale(1.4);
+    opacity: 0;
+  }
+}
+
+.cloud { animation-duration: 5s; }
+.brief { animation-duration: 6s; }
+
+h2 {
+  color: #5c7ecb;
+}
+
+/* INTRO ANIMATIONS */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes twinkle {
+  0%,100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes floatCloud {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .home {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO SCREEN -->
+<div id="intro" class="intro-screen">
+  <div class="intro-content">
+    <div class="sparkle">✦</div>
+    <h1>Welcome to Chatopia!</h1>
+    <button onclick="enterSite()" class="enter-btn">Enter</button>
+
+    <div class="loading-wrapper" id="loadingWrapper">
+      <div class="loading-bar">
+        <div class="loading-fill" id="loadingFill"></div>
+      </div>
+      <p class="loading-text">Loading dreamy space...</p>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN HOME -->
+<div class="home">
+
+  <div class="app" onclick="openModal('about')">
+    <div class="icon">☁️</div>
+    <div class="label">About</div>
+  </div>
+
+  <div class="app" onclick="openModal('portfolio')">
+    <div class="icon">🫧</div>
+    <div class="label">Portfolio</div>
+  </div>
+
+  <div class="app" onclick="openModal('experience')">
+    <div class="icon">💼</div>
+    <div class="label">Experience</div>
+  </div>
+
+  <div class="app">
+    <a href="YOUR_CV_LINK_HERE" target="_blank">
+      <div class="icon">📄</div>
+      <div class="label">CV</div>
+    </a>
+  </div>
+
+  <div class="app">
+    <a href="https://linkedin.com/in/YOURUSERNAME" target="_blank">
+      <div class="icon">💙</div>
+      <div class="label">LinkedIn</div>
+    </a>
+  </div>
+
+  <div class="app">
+    <a href="mailto:youremail@email.com">
+      <div class="icon">✉️</div>
+      <div class="label">Email</div>
+    </a>
+  </div>
+
+  <div class="app">
+    <a href="https://instagram.com/YOURUSERNAME" target="_blank">
+      <div class="icon">📷</div>
+      <div class="label">Instagram</div>
+    </a>
+  </div>
+
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('about')">✖</span>
+    <h2>About Me</h2>
+    <p class="item">☁️ Hi! I'm [Your Name]</p>
+    <p class="item">☁️ I love soft aesthetic design</p>
+
+    <div class="bubble cloud" style="left:20%">☁️</div>
+    <div class="bubble cloud" style="left:60%">☁️</div>
+  </div>
+</div>
+
+<!-- PORTFOLIO -->
+<div id="portfolio" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('portfolio')">✖</span>
+    <h2>Portfolio</h2>
+    <p class="item">🫧 Project 1</p>
+    <p class="item">🫧 Project 2</p>
+    <p class="item">🫧 Project 3</p>
+
+    <div class="bubble" style="left:15%">🫧</div>
+    <div class="bubble" style="left:40%">🫧</div>
+    <div class="bubble" style="left:70%">🫧</div>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<div id="experience" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('experience')">✖</span>
+    <h2>Experience</h2>
+    <p class="item">💼 Internship 1</p>
+    <p class="item">💼 Internship 2</p>
+
+    <div class="bubble brief" style="left:30%">💼</div>
+    <div class="bubble brief" style="left:65%">💼</div>
+  </div>
+</div>
+
+<script>
+function openModal(id) {
+  document.getElementById(id).style.display = "flex";
+}
+
+function closeModal(id) {
+  document.getElementById(id).style.display = "none";
+}
+
+function enterSite() {
+  document.querySelector('.enter-btn').style.display = 'none';
+  document.getElementById('loadingWrapper').style.display = 'block';
+
+  setTimeout(() => {
+    document.getElementById('loadingFill').style.width = '100%';
+  }, 100);
+
+  setTimeout(() => {
+    document.getElementById('intro').style.opacity = '0';
+    document.getElementById('intro').style.transition = '0.8s';
+
+    setTimeout(() => {
+      document.getElementById('intro').style.display = 'none';
+      document.querySelector('.home').style.display = 'grid';
+    }, 800);
+  }, 2300);
+}
+</script>
+
+</body>
+</html>
+```
+
+This is your fully combined version with:
+
+* NewJeans-inspired intro screen
+* Animated Enter button
+* Loading bar transition
+* Underline-free links
+* Smooth fade into portfolio
+* Existing modal sections preserved
+* Mobile responsive grid
